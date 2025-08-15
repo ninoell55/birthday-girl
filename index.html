@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Happy Birthday Jihan Syahira ❤️</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #ffe4e6 0%, #fce7f3 100%);
+            overflow-x: hidden;
+        }
+
+        /* Sparkle effect */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: sparkleAnim 3s infinite;
+        }
+
+        @keyframes sparkleAnim {
+
+            0%,
+            100% {
+                transform: scale(0.5) translateY(0);
+                opacity: 0.6;
+            }
+
+            50% {
+                transform: scale(1.2) translateY(-10px);
+                opacity: 1;
+            }
+        }
+
+        /* Heart animation */
+        .heart {
+            position: absolute;
+            top: -40px;
+            font-size: 2rem;
+            opacity: 0.7;
+            animation: heartFall 7s linear infinite;
+            z-index: 1;
+        }
+
+        .heart,
+        .balloon,
+        .confetti {
+            position: fixed;
+        }
+
+        @keyframes heartFall {
+            0% {
+                top: -40px;
+            }
+
+            100% {
+                top: 110vh;
+            }
+        }
+
+        /* Gallery hover */
+        .gallery-img {
+            transition: transform 0.4s cubic-bezier(.68, -0.55, .27, 1.55), box-shadow 0.3s;
+            opacity: 0;
+            transform: translateY(20px);
+            cursor: pointer;
+        }
+
+        .gallery-img.show {
+            opacity: 1;
+            transform: translateY(0);
+            animation: glow 1s ease-out;
+        }
+
+        .gallery-img:hover {
+            transform: scale(1.08) rotate(-2deg);
+            box-shadow: 0 8px 24px #fbb6ce80;
+        }
+
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 0px #fbb6ce80;
+            }
+
+            50% {
+                box-shadow: 0 0 20px #fbb6ce80;
+            }
+
+            100% {
+                box-shadow: 0 0 0px #fbb6ce80;
+            }
+        }
+
+        /* Music control */
+        #music-control {
+            position: fixed;
+            right: 1rem;
+            bottom: 1rem;
+            z-index: 50;
+            background: #fff0f6;
+            border-radius: 9999px;
+            box-shadow: 0 2px 8px #fbb6ce60;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Lightbox fullscreen */
+        #lightbox {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+        }
+
+        #lightbox img {
+            max-width: 90%;
+            max-height: 80%;
+            margin-top: 5%;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        #lightbox-close {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+
+            .balloon,
+            .confetti {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen relative">
+
+    <!-- Sparkle Container -->
+    <div id="sparkle-container"></div>
+
+    <!-- Hati -->
+    <div id="heart-container"></div>
+
+    <!-- Header -->
+    <header class="w-full py-2 flex flex-col items-center">
+        <div class="text-center p-2">
+            <h1 id="animated-header" class="text-5xl md:text-6xl font-pacifico text-pink-500 font-bold mb-2"></h1>
+            <span class="text-lg text-pink-400">Selamat ulang tahun, semoga hari ini penuh cinta dan kebahagiaan!
+                🎉</span>
+        </div>
+    </header>
+
+    <!-- Pesan cinta -->
+    <section id="love-message" class="w-full max-w-xl mx-auto px-4 py-8">
+        <h2 class="text-2xl font-bold text-pink-400 mb-4">Pesan Cinta</h2>
+        <div class="bg-pink-50 rounded-xl p-6 shadow-md text-justify">
+            <span id="typing-message" class="text-lg text-pink-600 text-pretty"></span>
+        </div>
+    </section>
+
+    <!-- Slider Foto -->
+    <section id="photo-slider" class="w-full max-w-4xl mx-auto px-4 py-6">
+        <h2 class="text-2xl font-bold text-pink-400 mb-4 text-center">Foto Spesial</h2>
+        <div class="relative overflow-hidden rounded-xl shadow-lg">
+            <div id="slider-track" class="flex transition-transform duration-500 ease-in-out">
+                <img src="./assets/12.jpg" alt="Foto 1" class="slider-img flex-shrink-0 w-full h-64 object-cover">
+                <img src="./assets/2.jpg" alt="Foto 2" class="slider-img flex-shrink-0 w-full h-64 object-cover">
+                <img src="./assets/3.jpg" alt="Foto 3" class="slider-img flex-shrink-0 w-full h-64 object-cover">
+                <img src="./assets/17.jpg" alt="Foto 4" class="slider-img flex-shrink-0 w-full h-64 object-cover">
+                <img src="./assets/18.jpg" alt="Foto 4" class="slider-img flex-shrink-0 w-full h-64 object-cover">
+                <img src="./assets/19.jpg" alt="Foto 4" class="slider-img flex-shrink-0 w-full h-64 object-cover">
+                <img src="./assets/20.jpg" alt="Foto 4" class="slider-img flex-shrink-0 w-full h-64 object-cover">
+            </div>
+            <!-- Tombol navigasi -->
+            <button id="prev-btn"
+                class="absolute top-1/2 left-3 -translate-y-1/2 bg-pink-500 text-white p-2 rounded-full shadow-md">‹</button>
+            <button id="next-btn"
+                class="absolute top-1/2 right-3 -translate-y-1/2 bg-pink-500 text-white p-2 rounded-full shadow-md">›</button>
+        </div>
+    </section>
+
+    <!-- Galeri Foto -->
+    <section id="gallery" class="w-full max-w-6xl mx-auto px-4 py-8">
+        <h2 class="text-2xl font-bold text-pink-400 mb-4 text-center">Galeri Kenangan</h2>
+        <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
+            <!-- Foto-foto -->
+            <img src="./assets/5.jpg" alt="Foto 5" loading="lazy"
+                class="gallery-img rounded-xl shadow-lg w-full h-28 object-cover cursor-pointer">
+            <img src="./assets/6.jpg" alt="Foto 6" loading="lazy"
+                class="gallery-img rounded-xl shadow-lg w-full h-28 object-cover cursor-pointer">
+            <img src="./assets/7.jpg" alt="Foto 7" loading="lazy"
+                class="gallery-img rounded-xl shadow-lg w-full h-28 object-cover cursor-pointer">
+            <img src="./assets/8.jpg" alt="Foto 8" loading="lazy"
+                class="gallery-img rounded-xl shadow-lg w-full h-28 object-cover cursor-pointer">
+            <img src="./assets/9.jpg" alt="Foto 9" loading="lazy"
+                class="gallery-img rounded-xl shadow-lg w-full h-28 object-cover cursor-pointer">
+            <img src="./assets/10.jpg" alt="Foto 10" loading="lazy"
+                class="gallery-img rounded-xl shadow-lg w-full h-28 object-cover cursor-pointer">
+
+            <!-- Foto tambahan -->
+            <img src="./assets/11.jpg" alt="Foto 11" loading="lazy"
+                class="gallery-img rounded-xl shadow-lg w-full h-28 object-cover cursor-pointer">
+            <img src="./assets/1.jpg" alt="Foto 12" loading="lazy"
+                class="gallery-img rounded-xl shadow-lg w-full h-28 object-cover cursor-pointer">
+            <img src="./assets/13.jpg" alt="Foto 13" loading="lazy"
+                class="gallery-img rounded-xl shadow-lg w-full h-28 object-cover cursor-pointer">
+            <img src="./assets/14.jpg" alt="Foto 14" loading="lazy"
+                class="gallery-img rounded-xl shadow-lg w-full h-28 object-cover cursor-pointer">
+            <img src="./assets/15.jpg" alt="Foto 15" loading="lazy"
+                class="gallery-img rounded-xl shadow-lg w-full h-28 object-cover cursor-pointer">
+            <img src="./assets/16.jpg" alt="Foto 16" loading="lazy"
+                class="gallery-img rounded-xl shadow-lg w-full h-28 object-cover cursor-pointer">
+        </div>
+    </section>
+
+    <!-- Tombol interaktif -->
+    <div class="w-full flex justify-center py-6">
+        <button id="love-btn"
+            class="bg-pink-400 hover:bg-pink-500 text-white font-bold py-3 px-6 rounded-full shadow-lg transition-all duration-300">
+            Klik untuk pesan cinta 💌
+        </button>
+    </div>
+
+    <!-- Musik -->
+    <div id="music-control">
+        <audio id="bgMusic" src="./assets/music.mp3" loop></audio>
+        <button id="playMusic" class="text-pink-500 font-bold">▶️</button>
+    </div>
+
+    <!-- Popup -->
+    <div id="popup" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-8 shadow-2xl text-center max-w-sm">
+            <span id="popup-message" class="text-pink-600 text-lg font-semibold"></span>
+            <br><br>
+            <button onclick="closePopup()"
+                class="bg-pink-400 hover:bg-pink-500 text-white font-bold py-2 px-4 rounded-full mt-2">Tutup</button>
+        </div>
+    </div>
+
+    <!-- Lightbox Fullscreen -->
+    <div id="lightbox">
+        <span id="lightbox-close">❌</span>
+        <img id="lightbox-img" src="">
+    </div>
+
+    <script>
+        // Header typing
+        const headerText = "Happy Birthday Jihan Syahira ❤️";
+        let i = 0;
+        function animateHeader() {
+            if (i < headerText.length) {
+                document.getElementById('animated-header').textContent += headerText[i];
+                i++;
+                setTimeout(animateHeader, 80);
+            }
+        }
+        animateHeader();
+
+        // Hearts
+        function createHeart() {
+            const hearts = ['💖', '💗', '💘', '💝', '💕', '❤️'];
+            const heart = document.createElement('span');
+            heart.className = 'heart';
+            heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.style.left = Math.random() * 95 + 'vw';
+            document.getElementById('heart-container').appendChild(heart);
+            setTimeout(() => heart.remove(), 7000);
+        }
+        setInterval(createHeart, 500);
+
+        // Love message typing
+        const loveText = "Happy Birthday, cintaku ❤️Terima kasih sudah mewarnai hidupku dengan tawa, pelukan, dan cinta yang tak ternilai. Semoga setiap langkahmu selalu dipenuhi kebahagiaan, dan semua mimpi indahmu jadi kenyataan. Kamu adalah alasan aku tersenyum setiap hari.I love you, today and always. 💕";
+        let idx = 0;
+        function typeMessage() {
+            if (idx < loveText.length) {
+                document.getElementById('typing-message').textContent += loveText[idx];
+                idx++;
+                setTimeout(typeMessage, 45);
+            }
+        }
+        setTimeout(typeMessage, 1200);
+
+        // Music control
+        const bgMusic = document.getElementById('bgMusic');
+        const playMusicBtn = document.getElementById('playMusic');
+        playMusicBtn.onclick = () => {
+            if (bgMusic.paused) {
+                bgMusic.play();
+                playMusicBtn.textContent = '⏸️';
+            } else {
+                bgMusic.pause();
+                playMusicBtn.textContent = '▶️';
+            }
+        };
+
+        // Popup messages
+        const loveMessages = [
+            "Kamu adalah hadiah terindah dalam hidupku.",
+            "Setiap detik bersamamu adalah momen berharga.",
+            "Aku bersyukur bisa mencintai dan dicintai kamu.",
+            "Semoga cinta kita selalu tumbuh dan mekar.",
+            "Selamat ulang tahun, cinta! Aku akan selalu di sisimu.",
+            "Kamu membuat dunia terasa lebih indah.",
+            "Aku mencintaimu, hari ini dan selamanya."
+        ];
+        document.getElementById('love-btn').onclick = () => {
+            const msg = loveMessages[Math.floor(Math.random() * loveMessages.length)];
+            document.getElementById('popup-message').textContent = msg;
+            document.getElementById('popup').classList.remove('hidden');
+        };
+        function closePopup() {
+            document.getElementById('popup').classList.add('hidden');
+        }
+        window.closePopup = closePopup;
+
+        // Sparkles
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = Math.random() * 100 + 'vw';
+            sparkle.style.top = Math.random() * 100 + 'vh';
+            sparkle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            document.getElementById('sparkle-container').appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 3000);
+        }
+        setInterval(createSparkle, 200);
+
+        // Slider
+        let sliderIndex = 0;
+        const sliderTrack = document.getElementById("slider-track");
+        const slides = document.querySelectorAll(".slider-img");
+        const totalSlides = slides.length;
+
+        document.getElementById("next-btn").addEventListener("click", () => {
+            sliderIndex = (sliderIndex + 1) % totalSlides;
+            sliderTrack.style.transform = `translateX(-${sliderIndex * 100}%)`;
+        });
+
+        document.getElementById("prev-btn").addEventListener("click", () => {
+            sliderIndex = (sliderIndex - 1 + totalSlides) % totalSlides;
+            sliderTrack.style.transform = `translateX(-${sliderIndex * 100}%)`;
+        });
+
+        // Gallery animation on scroll
+        const galleryImgs = document.querySelectorAll('.gallery-img');
+        function showGallery() {
+            galleryImgs.forEach(img => {
+                const rect = img.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 50) {
+                    img.classList.add('show');
+                }
+            });
+        }
+        window.addEventListener('scroll', showGallery);
+        showGallery();
+
+        // Lightbox
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const closeBtn = document.getElementById('lightbox-close');
+
+        galleryImgs.forEach(img => {
+            img.addEventListener('click', () => {
+                lightbox.style.display = 'block';
+                lightboxImg.src = img.src;
+            });
+        });
+        closeBtn.addEventListener('click', () => {
+            lightbox.style.display = 'none';
+        });
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>
